@@ -7,10 +7,15 @@ import sys
 
 broker = "krypton.int.rainsbrook.co.uk"
 
-topic = '/1stfloor/lights/relay1'
+# MQTT parameters
+
+subscribe_topic = '/1stfloor/lights/relay1'
+publish_topic = '/1stfloor/lights/relay1-status'
+brokerqos = 0
+
+# sr201 parameters
 ipaddress = '192.168.1.91'
 device_port = 6722
-brokerqos = 0
 
 
 def netcat(host, port, content):
@@ -42,6 +47,7 @@ def on_message(client, userdata, message):
         # print(allrelaystatus)
         relay1status = allrelaystatus[2]
         print("relay1status", relay1status)
+        publishtomqtt(publish_topic, relay1status, 0)
     elif rcvmsg == 'Off':
         print('Off')
         command = '21:'
@@ -51,29 +57,33 @@ def on_message(client, userdata, message):
         # print(allrelaystatus)
         relay1status = allrelaystatus[2]
         print("relay1status", relay1status)
+        publishtomqtt(publish_topic, relay1status, 0)
     else:
         print('Error')
 
 
-# create client object client1.on_publish = on_publish
-# assign function to callback client1.connect(broker,port)
-# establish connection client1.publish("house/bulb1","on")
-client = paho.Client("client-001")
+def publishtomqtt(pubtopic, payload, qos):
+    # clientpub.connect(broker)  # may already be connected
+    clientpub.publish(pubtopic, payload, qos)
+
+
+clientsub = paho.Client("clientsub-001")
+clientpub = paho.Client("clientsub-002")
 
 print("connecting to broker ", broker)
-client.connect(broker)  # connect
-client.on_message = on_message
+clientsub.connect(broker)  # connect
+clientsub.on_message = on_message
 
-print("subscribing to ", topic)
-client.subscribe(topic, qos=brokerqos)  # subscribe
+clientpub.connect(broker)  # may already be connected
+
+print("subscribing to ", subscribe_topic)
+clientsub.subscribe(subscribe_topic, qos=brokerqos)  # subscribe
+
+# test
+# publishtomqtt(publish_topic, 'Hello to you', 0)
 
 while True:
-    # ##### Bind function to callback
-    # client.on_message = on_message
-    #####
-    # print("connecting to broker ", broker)
-    # client.connect(broker)  # connect
-    client.loop_start()  # start loop to process received messages
-    # print("subscribing to ", topic)
-    # client.subscribe(topic,qos = brokerqos)  # subscribe
+    clientsub.loop_start()  # start loop to process received messages
+    # print("subscribing to ", subscribe_topic)
+    # clientsub.subscribe(subscribe_topic,qos = brokerqos)  # subscribe
     time.sleep(2)
