@@ -1,5 +1,0 @@
-Populate required 
-python -m pip freeze >> requirements.txt
-
-Install required
-python -m pip install -r requirements.txt
