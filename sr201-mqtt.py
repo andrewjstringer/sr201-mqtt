@@ -4,6 +4,7 @@ import time
 import paho.mqtt.client as paho
 import socket
 import config
+from datetime import datetime
 
 
 def netcat(host, port, content):
@@ -17,7 +18,6 @@ def netcat(host, port, content):
         data = s.recv(1024)
     s.close()
     # print(repr(data))
-    # print("Inside func", repr(data))
     return repr(data)
 
 
@@ -27,24 +27,24 @@ def on_message(client, userdata, message):
     # print('RcvdMsg', rcvmsg)
 
     if rcvmsg == 'On':
-        print('On')
-        command = '11:'
+        print(nowstring, ' On')
+        command = '1' + config.relaynumber + ':'
         response = netcat(config.ipaddress, config.device_port, command)
         # print("Response >", response, "<")
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
         relay1status = allrelaystatus[2]
-        print("relay1status", relay1status)
+        # print("relay1status", relay1status)
         publishtomqtt(config.publish_topic, relay1status, 0)
     elif rcvmsg == 'Off':
-        print('Off')
-        command = '21:'
+        print(nowstring, ' Off')
+        command = '2' + config.relaynumber + ':'
         response = netcat(config.ipaddress, config.device_port, command)
         # print("Response >", response, "<")
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
         relay1status = allrelaystatus[2]
-        print("relay1status", relay1status)
+        # print("relay1status", relay1status)
         publishtomqtt(config.publish_topic, relay1status, 0)
     else:
         print('Error')
@@ -54,6 +54,9 @@ def publishtomqtt(pubtopic, payload, qos):
     # clientpub.connect(broker)  # may already be connected
     clientpub.publish(pubtopic, payload, qos)
 
+
+now = datetime.now()
+nowstring = now.strftime("%d/%m/%Y, %H:%M:%S")
 
 clientsub = paho.Client("clientsub-001")
 clientpub = paho.Client("clientsub-002")
@@ -67,8 +70,7 @@ clientpub.connect(config.broker)  # may already be connected
 print("subscribing to ", config.subscribe_topic)
 clientsub.subscribe(config.subscribe_topic, qos=config.brokerqos)  # subscribe
 
-# test
-# publishtomqtt(config.publish_topic, 'Hello to you', 0)
+print("publishing to ", config.publish_topic)
 
 while True:
     clientsub.loop_start()  # start loop to process received messages

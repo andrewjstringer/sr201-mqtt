@@ -9,3 +9,4 @@ brokerqos = 0
 # sr201 settings
 ipaddress = '192.168.1.91'
 device_port = 6722
+relaynumber = '1'
