@@ -25,6 +25,8 @@ def on_message(client, userdata, message):
     time.sleep(1)
     rcvmsg = str(message.payload.decode("utf-8"))
     # print('RcvdMsg', rcvmsg)
+    now = datetime.now()
+    nowstring = now.strftime("%d/%m/%Y, %H:%M:%S")
 
     if rcvmsg == 'On':
         print(nowstring, ' On')
@@ -54,9 +56,6 @@ def publishtomqtt(pubtopic, payload, qos):
     # clientpub.connect(broker)  # may already be connected
     clientpub.publish(pubtopic, payload, qos)
 
-
-now = datetime.now()
-nowstring = now.strftime("%d/%m/%Y, %H:%M:%S")
 
 clientsub = paho.Client("clientsub-001")
 clientpub = paho.Client("clientsub-002")
