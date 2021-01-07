@@ -1,7 +1,17 @@
 # sr201-mqtt  
   
 **MQTT to SR201 module interface.**  
-  
+
+The sr-201 is a network connected 2 channel relay module. This code is designed to 
+allow it to be controlled from commands passed via MQTT (https://mqtt.org/).
+
+Sometimes this module is described as http controlled, this is *not* the case, 
+it does not contain a web server, it is controlled by sending codes to a tcp (or udp) port.
+You cannot point your web browser to it directly.
+
+![image info](./pictures/image.png)
+
+
 This code draws heavily on the sr-201 code from Cryxli in Github   
 (https://github.com/cryxli/sr201) and examples of MQTT in Python   
 from 'Steve' (http://www.steves-internet-guide.com).  
