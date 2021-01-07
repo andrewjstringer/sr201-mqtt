@@ -26,6 +26,7 @@ This code draws heavily on the sr-201 code from Cryxli in Github
 (https://github.com/cryxli/sr201) and examples of MQTT in Python 
 from 'Steve' (http://www.steves-internet-guide.com).  
   
+
 This code is configured from a config file which is itself, Python, 
 this allows easy import of parameters. All the parameters I think you 
 should need to change are in this file. Please send me a message if 
