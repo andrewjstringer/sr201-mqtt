@@ -72,6 +72,7 @@ clientsub.subscribe(config.subscribe_topic, qos=config.brokerqos)  # subscribe
 print("publishing to ", config.publish_topic)
 
 while True:
+    # Also test loop_forever()
     clientsub.loop_start()  # start loop to process received messages
     # print("subscribing to ", subscribe_topic)
     # clientsub.subscribe(config.subscribe_topic,qos = config.brokerqos)  # subscribe
