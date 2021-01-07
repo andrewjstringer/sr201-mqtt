@@ -9,7 +9,13 @@ Sometimes this module is described as http controlled, this is *not* the case,
 it does not contain a web server, it is controlled by sending codes to a tcp (or udp) port.
 You cannot point your web browser to it directly.
 
-![image info](./pictures/image.png)
+![SR-201 module](./sr-201.jpg)
+
+Also, it has been described as capable of switching 240V at 10A, I am very much not 
+convinced of this, the relays on the module are rated as such, but the pcb track widths 
+don't seem wide enough for 10A and the track spacing doesn't look far enough for 240v. 
+I use this module to switch 12v which actuates a DIN rail mounted relay which is 
+suitable for 240v.
 
 
 This code draws heavily on the sr-201 code from Cryxli in Github   
