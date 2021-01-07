@@ -32,7 +32,6 @@ def on_message(client, userdata, message):
         print(nowstring, ' On')
         command = '1' + config.relaynumber + ':'
         response = netcat(config.ipaddress, config.device_port, command)
-        # print("Response >", response, "<")
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
         relay1status = allrelaystatus[2]
@@ -42,7 +41,6 @@ def on_message(client, userdata, message):
         print(nowstring, ' Off')
         command = '2' + config.relaynumber + ':'
         response = netcat(config.ipaddress, config.device_port, command)
-        # print("Response >", response, "<")
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
         relay1status = allrelaystatus[2]
