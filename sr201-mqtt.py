@@ -27,6 +27,7 @@ def on_message(client, userdata, message):
     # print('RcvdMsg', rcvmsg)
     now = datetime.now()
     nowstring = now.strftime("%d/%m/%Y, %H:%M:%S")
+    statusbase = 1
 
     if rcvmsg == 'On':
         print(nowstring, ' On')
@@ -34,18 +35,32 @@ def on_message(client, userdata, message):
         response = netcat(config.ipaddress, config.device_port, command)
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
-        relay1status = allrelaystatus[2]
-        # print("relay1status", relay1status)
-        publishtomqtt(config.publish_topic, relay1status, 0)
+        statusindex = statusbase + int(config.relaynumber)
+        # print('statusindex is', statusindex)
+        relaystatus = allrelaystatus[statusindex]
+        publishtomqtt(config.publish_topic, relaystatus, 0)
     elif rcvmsg == 'Off':
         print(nowstring, ' Off')
         command = '2' + config.relaynumber + ':'
         response = netcat(config.ipaddress, config.device_port, command)
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
-        relay1status = allrelaystatus[2]
-        # print("relay1status", relay1status)
-        publishtomqtt(config.publish_topic, relay1status, 0)
+        statusindex = statusbase + int(config.relaynumber)
+        # print('statusindex is', statusindex)
+        relaystatus = allrelaystatus[statusindex]
+        publishtomqtt(config.publish_topic, relaystatus, 0)
+    elif rcvmsg =='Status':
+        print(nowstring, ' Status')
+        command = '00' + ':'
+        response = netcat(config.ipaddress, config.device_port, command)
+        allrelaystatus = [response[i:i + 1] for i in range(0, len(response), 1)]
+        # print('allrelaystatus is:- ', allrelaystatus)
+        statusindex = statusbase + int(config.relaynumber)
+        # print('statusindex is', statusindex)
+        relaystatus = allrelaystatus[statusindex]
+        print("relaystatus", relaystatus)
+        publishtomqtt(config.publish_topic, relaystatus, 0)
+
     else:
         print('Error')
 

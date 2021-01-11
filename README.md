@@ -46,8 +46,7 @@ Valid commands are:-
 	 # 21 Turn relay 1 off 
 	 # 12 Turn relay 2 on 
 	 # 22 Turn relay 2 off  
-
-Currently the '00' code to retrieve status is not implemented.  
+ 
 Although there is a '*n' option to toggle the relay on and then off after 'n' seconds, this is not 
 implemented as it can be achieved through sending to the MQTT topic. If this would be useful to you,
 please let me know.
