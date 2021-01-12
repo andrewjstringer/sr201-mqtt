@@ -57,5 +57,5 @@ please let me know.
 1. Support MQTT topic which requires username and password.
 2. Support MQTT encryption.
 3. Implement some sort of network access control to restrict addresses allowed to talk to it.
-4. Implement status only operation.
+
 
