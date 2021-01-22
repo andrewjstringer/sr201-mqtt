@@ -58,7 +58,7 @@ def on_message(client, userdata, message):
         statusindex = statusbase + int(config.relaynumber)
         # print('statusindex is', statusindex)
         relaystatus = allrelaystatus[statusindex]
-        print("relaystatus", relaystatus)
+        # print("relaystatus", relaystatus)
         publishtomqtt(config.publish_topic, relaystatus, 0)
 
     else:
@@ -67,6 +67,7 @@ def on_message(client, userdata, message):
 
 def publishtomqtt(pubtopic, payload, qos):
     # clientpub.connect(broker)  # may already be connected
+    # print("From in publishtomqtt", pubtopic, payload, qos)
     clientpub.publish(pubtopic, payload, qos)
 
 

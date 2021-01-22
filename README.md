@@ -30,8 +30,10 @@ from 'Steve' (http://www.steves-internet-guide.com).
 
 This code is configured from a config file which is itself, Python, 
 this allows easy import of parameters. All the parameters I think you 
-should need to change are in this file. Please send me a message if 
-this is not the case.  
+should need to change are in this file. Please rename the config.py.example to config.py
+config.py.example ships to avoid overwriting any local changes you have made if you 
+pull new code from github. 
+Please send me a message if this is not the case.  
 
 Both the MQTT broker and sr-201 addresses can be either DNS names or ipaddresses.
 
@@ -57,5 +59,4 @@ please let me know.
 1. Support MQTT topic which requires username and password.
 2. Support MQTT encryption.
 3. Implement some sort of network access control to restrict addresses allowed to talk to it.
-
-
+4. Handle non responsive or offline relay module without exception. 
