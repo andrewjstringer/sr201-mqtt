@@ -28,8 +28,10 @@ from 'Steve' (http://www.steves-internet-guide.com).
   
 This code is configured from a config file which is itself, Python, 
 this allows easy import of parameters. All the parameters I think you 
-should need to change are in this file. Please send me a message if 
-this is not the case.  
+should need to change are in this file, this is named config.py.example to 
+avoid future updates overwriting your local config. 
+Please send me a message if this is not the case.  
+Rename the config.py.example to config.py and edit to suit your setup.
 
 Both the MQTT broker and sr-201 addresses can be either DNS names or ipaddresses.
 
