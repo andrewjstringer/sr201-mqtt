@@ -20,7 +20,9 @@ convinced of this, the relays on the module are rated as such, but the pcb track
 don't seem wide enough for 10A and the track spacing doesn't look far enough for 240v. 
 I use this module to switch 12v which actuates a DIN rail mounted relay which is 
 suitable for 240v.
+The completed module is shown below.
 
+<img src="relayModule-sm.jpg" alt="Installed in case" width="200"/>
 
 This code draws heavily on the sr-201 code from Cryxli in Github 
 (https://github.com/cryxli/sr201) and examples of MQTT in Python 
