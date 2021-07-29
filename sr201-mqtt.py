@@ -3,8 +3,14 @@
 import time
 import paho.mqtt.client as paho
 import socket
-import config
 from datetime import datetime
+
+# Added to allow a docker volume to inject config
+import os
+if os.path.isfile('config_container.py'):
+    import config_container as config
+else:
+    import config
 
 
 # This function connects to the sr-201 device, host and port are defined in the

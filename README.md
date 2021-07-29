@@ -7,7 +7,11 @@ allow it to be controlled from commands passed via an MQTT topic (https://mqtt.o
 from the operation is passed back to a status MQTT topic. 
 Both these topics are defined in the config file.
 
-Currently this code works stand alone, future work will be to package this in a Docker container.
+Currently this code works stand alone, the config is now update to allow a Dockerfile
+to pull from GitHub, if the DockerFile has a volume mount which
+exposes a file called config_container.py, this will be used in 
+preference to the standalone config. A Dockerfile will be added later which will build
+this in a container.
 
 Sometimes this module is described as http controlled, this is *not* the case, 
 it does not contain a web server, it is controlled by sending codes to a tcp (or udp) port.
