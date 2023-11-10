@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 # This function connects to the sr-201 device, host and port are defined in the
-# config.py file, the contect is serived from the relay number and action requested.
+# config.py file, the content is served from the relay number and action requested.
 def netcat(host, port, content):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, int(port)))
