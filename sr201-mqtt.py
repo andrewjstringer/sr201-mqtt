@@ -10,15 +10,15 @@ from datetime import datetime
 # This function connects to the sr-201 device, host and port are defined in the
 # config.py file, the content is served from the relay number and action requested.
 def netcat(host, port, content):
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((host, int(port)))
-    s.sendall(content.encode())
-    s.shutdown(socket.SHUT_WR)
+    nc_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    nc_socket.connect((host, int(port)))
+    nc_socket.sendall(content.encode())
+    nc_socket.shutdown(socket.SHUT_WR)
 
     data = None
     while not data:
-        data = s.recv(1024)
-    s.close()
+        data = nc_socket.recv(1024)
+    nc_socket.close()
     # print(repr(data))
     return repr(data)
 
@@ -28,43 +28,44 @@ def on_message(client, userdata, message):
     rcvmsg = str(message.payload.decode("utf-8"))
     # print('RcvdMsg', rcvmsg)
     now = datetime.now()
-    nowstring = now.strftime("%d/%m/%Y, %H:%M:%S")
+    nowstr = now.strftime("%d/%m/%Y, %H:%M:%S")
     statusbase = 1
 
-    if rcvmsg == 'On':
-        print(nowstring, ' On')
-        command = '1' + config.relaynumber + ':'
+    # code listens to mqtt topic, allowed values are 'On', 'Off' and 'Status'
+    if rcvmsg == "On":
+        print(nowstr, " On")
+        command = "1" + config.relaynumber + ":"
         response = netcat(config.ipaddress, config.device_port, command)
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
         statusindex = statusbase + int(config.relaynumber)
-        # print('statusindex is', statusindex)
+        # print("statusindex is", statusindex)
         relaystatus = allrelaystatus[statusindex]
+        # Write status back to mqtt
         publishtomqtt(config.publish_topic, relaystatus, 0)
-    elif rcvmsg == 'Off':
-        print(nowstring, ' Off')
-        command = '2' + config.relaynumber + ':'
+    elif rcvmsg == "Off":
+        print(nowstr, ' Off')
+        command = "2" + config.relaynumber + ":"
         response = netcat(config.ipaddress, config.device_port, command)
         allrelaystatus = [response[i:i+1] for i in range(0, len(response), 1)]
         # print(allrelaystatus)
         statusindex = statusbase + int(config.relaynumber)
-        # print('statusindex is', statusindex)
+        # print("statusindex is", statusindex)
         relaystatus = allrelaystatus[statusindex]
         publishtomqtt(config.publish_topic, relaystatus, 0)
-    elif rcvmsg =='Status':
-        print(nowstring, ' Status')
-        command = '00' + ':'
+    elif rcvmsg =="Status":
+        print(nowstr, " Status")
+        command = "00" + ":"
         response = netcat(config.ipaddress, config.device_port, command)
         allrelaystatus = [response[i:i + 1] for i in range(0, len(response), 1)]
-        # print('allrelaystatus is:- ', allrelaystatus)
+        # print("allrelaystatus is:- ", allrelaystatus)
         statusindex = statusbase + int(config.relaynumber)
-        # print('statusindex is', statusindex)
+        # print("statusindex is", statusindex)
         relaystatus = allrelaystatus[statusindex]
         # print("relaystatus", relaystatus)
         publishtomqtt(config.publish_topic, relaystatus, 0)
-
     else:
-        print('Error')
+        print("Error")
 
 
 def publishtomqtt(pubtopic, payload, qos):
